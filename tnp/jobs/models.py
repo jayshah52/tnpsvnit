@@ -31,6 +31,8 @@ class Job(models.Model):
     job_type = models.CharField(max_length=12,choices=TYPES, default='PLACEMENT')
     status = models.BooleanField(default=True)
     criteria = models.TextField()
+    apply_by = models.DateField(max_length=8, null=True)
+    jd = models.FileField(upload_to='jd/pdf', null=True)
 
     def __str__(self):
         return str(self.role)

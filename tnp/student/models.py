@@ -20,6 +20,7 @@ class Student(AbstractUser):
         ('OTHERS', 'OTHERS'),
     )
     name = models.CharField(max_length=255, null=True, blank=True, default='')
+    email = models.EmailField(unique=True)
     personal_mail = models.EmailField(null=True, blank=True)
     phone_no = models.CharField(max_length=10, null=True, blank=True, default='')
     roll_no = models.CharField(max_length=8,null=True, blank=True, default='')
@@ -30,6 +31,9 @@ class Student(AbstractUser):
     hometown = models.CharField(max_length=255, null=True, blank=True, default='')
     percentage_ten = models.FloatField(null=True, blank=True, default=0)
     percentage_twelve = models.FloatField(null=True, blank=True, default=0)
+    cur_backlog = models.IntegerField(null=True, blank=True, default=0)
+    total_backlogs = models.IntegerField(null=True, blank=True, default=0)
+    current_loc = models.CharField(max_length=255, null=True, blank=True, default='')
     cgpa_s1 = models.FloatField(null=True, blank=True, default=0)
     cgpa_s2 = models.FloatField(null=True, blank=True, default=0)
     cgpa_s3 = models.FloatField(null=True, blank=True, default=0)
