@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
 from distutils.command.config import config
 from pathlib import Path
 from tnp.config.config import username, password
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -32,7 +32,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 AUTH_USER_MODEL = 'student.Student'
-#setting up email server
+# setting up email server
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = username
@@ -43,15 +43,17 @@ DEFAULT_FROM_EMAIL = 'sjay5200@gmail.com'
 
 # DOMAIN = configparser('localhost:8100') #localhost:8000
 # SITE_NAME = conf('net') #ne
-#djoser login settings
+# djoser login settings
+DOMAIN = ('localhost:8080')
+SITE_NAME = ('tnpsvnit')
 DJOSER = {
-    'DOMAIN': 'localhost:8000',
-    'SITE_NAME': 'net',
-    'LOGIN_FIELD':'username',
+
+    'LOGIN_FIELD': 'username',
     # 'USER_CREATE_PASSWORD_RETYPE':True,
-    'ACTIVATION_URL': "activate/?uid={uid}&token={token}",
+    'ACTIVATION_URL': "activate/{uid}/{token}",
+    'PASSWORD_RESET_CONFIRM_URL': 'reset_password/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
-    'SERIALIZERS':{
+    'SERIALIZERS': {
         'activation': 'djoser.serializers.ActivationSerializer',
     }
 }
@@ -106,13 +108,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'tnp.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -123,7 +125,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -143,7 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -157,11 +157,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
